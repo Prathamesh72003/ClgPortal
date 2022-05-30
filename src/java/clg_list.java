@@ -39,7 +39,7 @@ PrintWriter out;
         out = response.getWriter();
         try{
             /* TODO output your page here. You may use following sample code. */
-            String data = (readHtml("D:\\Study\\Academics\\SEM 6\\JP2\\CarrerPortal\\CarrerPortal\\web\\static_clg_list_head.html"));
+            String data = (readHtml("/static_clg_list_head.html"));
             out.println(data);
             
             DatabaseConnection();
@@ -88,10 +88,11 @@ PrintWriter out;
     }// </editor-fold>
 
    public String readHtml(String filename) throws FileNotFoundException {
+       String absoluteDiskPath = getServletContext().getRealPath(filename);
         String result = null;
 //        FileReader fr = new FileReader("/CarrerPortal/static_search_result_header.html");
         StringBuilder html = new StringBuilder();
-        FileReader fr = new FileReader(filename);
+        FileReader fr = new FileReader(absoluteDiskPath);
 
         try {
             BufferedReader br = new BufferedReader(fr);

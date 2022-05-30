@@ -53,7 +53,7 @@ public class college_result extends HttpServlet {
             
             vac_caste = ("vac_"+caste).toLowerCase();
 //            System.out
-            String data = (readHtml("D:\\Study\\Academics\\SEM 6\\JP2\\CarrerPortal\\CarrerPortal\\web\\static_search_result_head.html"));
+            String data = (readHtml("/static_search_result_head.html"));
             out.println(data);
 
             DatabaseConnection();
@@ -65,9 +65,10 @@ public class college_result extends HttpServlet {
 
     public String readHtml(String filename) throws FileNotFoundException {
         String result = null;
+         String absoluteDiskPath = getServletContext().getRealPath(filename);
 //        FileReader fr = new FileReader("/CarrerPortal/static_search_result_header.html");
         StringBuilder html = new StringBuilder();
-        FileReader fr = new FileReader(filename);
+        FileReader fr = new FileReader(absoluteDiskPath);
 
         try {
             BufferedReader br = new BufferedReader(fr);
@@ -146,19 +147,22 @@ public class college_result extends HttpServlet {
                 double res = merit - Integer.parseInt(merit_no);
                 res = (res/merit)*100;
                 
-                double fees = rs.getInt("fees");
-                out.println("<tbody><tr>\n" + "    <td data-label=\"S.No\">"+id+"</td>\n"
-                        + "            <td data-label=\"i_code\">"+institute_code+"</td>\n"
-                        + "            <td data-label=\"name\">"+name+"</td>\n"
-                        + "            <td data-label=\"city%\">"+city+"</td>\n"
-                        + "            <td data-label=\"vacancy%\">"+vacancy+"</td>\n"
-                        + "            <td data-label=\"merit%\">"+merit+"</td>\n"
-                        + "            <td data-label=\"fees%\">"+fees+"</td>\n"
-                        + "            <td data-label=\"Staus\">\n"
-                        + "                <progress id=\"file\" value=\""+res+"\" max=\"100\"></progress>\n"
-                        + "                <label for=\"file\">"+df.format(res)+" %</label>\n"
-                        + "            </td>\n"
-                        + "          </tr></tbody>");
+                if(res > 0){
+                    double fees = rs.getInt("fees");
+                    out.println("<tbody><tr>\n" + "    <td data-label=\"S.No\">"+id+"</td>\n"
+                            + "            <td data-label=\"i_code\">"+institute_code+"</td>\n"
+                            + "            <td data-label=\"name\">"+name+"</td>\n"
+                            + "            <td data-label=\"city%\">"+city+"</td>\n"
+                            + "            <td data-label=\"vacancy%\">"+vacancy+"</td>\n"
+                            + "            <td data-label=\"merit%\">"+merit+"</td>\n"
+                            + "            <td data-label=\"fees%\">"+fees+"</td>\n"
+                            + "            <td data-label=\"Staus\">\n"
+                            + "                <progress id=\"file\" value=\""+res+"\" max=\"100\"></progress>\n"
+                            + "                <label for=\"file\">"+df.format(res)+" %</label>\n"
+                            + "            </td>\n"
+                            + "          </tr></tbody>");
+                }
+                    
             }
             out.println("</table>");
             out.println("</html></body>");
